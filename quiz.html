@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI/ML/DL Quiz — Dr. C V Krishnaveni</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f4ff;
+  --bg2: #e8eeff;
+  --white: #ffffff;
+  --card: #ffffff;
+  --border: #c8d4f0;
+  --shadow: rgba(67,97,238,0.12);
+  --primary: #4361ee;
+  --primary2: #3a0ca3;
+  --accent: #f72585;
+  --accent2: #7209b7;
+  --green: #06d6a0;
+  --orange: #fb8500;
+  --yellow: #ffbe0b;
+  --red: #ef233c;
+  --text: #1a1a2e;
+  --text2: #4a5568;
+  --text3: #718096;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  background-image: radial-gradient(circle at 10% 20%, rgba(67,97,238,0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 90% 80%, rgba(247,37,133,0.07) 0%, transparent 50%);
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  color: white;
+  padding: 1.5rem 1rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 40px;
+  background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.header-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50px;
+  padding: 6px 20px;
+  font-size: 1rem; font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+.header h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+.header p {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  opacity: 0.9;
+}
+
+/* ── MAIN ── */
+.main { max-width: 700px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+/* ── SCREEN SYSTEM ── */
+.screen { display: none; }
+.screen.active { display: block; animation: fadeUp 0.4s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── JOIN FORM ── */
+.join-card {
+  background: var(--white);
+  border-radius: 28px;
+  box-shadow: 0 8px 40px var(--shadow);
+  padding: 2.5rem 2rem;
+  border: 3px solid var(--border);
+}
+.join-card h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.join-card .sub {
+  text-align: center;
+  color: var(--text2);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+.field { margin-bottom: 1.3rem; }
+.field label {
+  display: block;
+  font-size: 1.05rem; font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.field input, .field select {
+  width: 100%;
+  background: var(--bg);
+  border: 3px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 1.15rem;
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  transition: border-color 0.2s;
+}
+.field input:focus, .field select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+}
+.field select option { background: white; }
+
+.session-info {
+  background: linear-gradient(135deg, #eef2ff, #f0f4ff);
+  border: 3px solid #c7d2fe;
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.session-info .si-icon { font-size: 2.5rem; }
+.session-info .si-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+.session-info .si-sub { font-size: 0.95rem; color: var(--text2); font-weight: 600; }
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  color: white; border: none;
+  border-radius: 16px;
+  padding: 18px;
+  font-size: 1.3rem; font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(67,97,238,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Nunito', sans-serif;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(67,97,238,0.4); }
+.btn-primary:disabled { background: #a0aec0; box-shadow: none; cursor: not-allowed; transform: none; }
+
+/* ── QUIZ ── */
+.quiz-header {
+  background: white;
+  border-radius: 20px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 20px var(--shadow);
+  border: 3px solid var(--border);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  flex-wrap: wrap;
+}
+.quiz-header .player-name {
+  font-size: 1.2rem; font-weight: 800; color: var(--primary);
+}
+.score-chip {
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  color: white; font-weight: 900; font-size: 1.1rem;
+  padding: 8px 20px; border-radius: 50px;
+}
+.progress-bar-wrap {
+  background: var(--bg2);
+  border-radius: 50px;
+  height: 14px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border: 2px solid var(--border);
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 50px;
+  transition: width 0.4s ease;
+}
+.q-dots {
+  display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.q-dot {
+  width: 32px; height: 10px; border-radius: 5px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.q-dot.done { background: var(--green); }
+.q-dot.current { background: var(--primary); }
+.q-dot.wrong { background: var(--red); }
+
+.question-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 8px 30px var(--shadow);
+  border: 3px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.q-label {
+  font-size: 1rem; font-weight: 800; color: var(--text3);
+  margin-bottom: 0.8rem;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.q-text {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.options { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1rem; }
+.opt {
+  background: var(--bg);
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 1.3rem;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 1rem;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--text);
+  transition: all 0.2s;
+  text-align: left;
+  font-family: 'Nunito', sans-serif;
+  width: 100%;
+}
+.opt:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: #eef2ff;
+  transform: translateX(6px);
+}
+.opt-badge {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--border); color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 1rem; flex-shrink: 0;
+  transition: all 0.2s;
+}
+.opt.correct { border-color: var(--green); background: #f0fdf4; }
+.opt.correct .opt-badge { background: var(--green); color: white; }
+.opt.wrong { border-color: var(--red); background: #fff5f5; }
+.opt.wrong .opt-badge { background: var(--red); color: white; }
+.opt:disabled { cursor: not-allowed; }
+
+.feedback-box {
+  border-radius: 14px;
+  padding: 1rem 1.3rem;
+  font-size: 1.1rem; font-weight: 800;
+  margin-bottom: 1rem;
+  display: none;
+}
+.feedback-box.correct { background: #d1fae5; color: #065f46; border: 3px solid var(--green); display: block; }
+.feedback-box.wrong { background: #fee2e2; color: #991b1b; border: 3px solid var(--red); display: block; }
+
+/* ── RESULT ── */
+.result-card {
+  background: white;
+  border-radius: 28px;
+  box-shadow: 0 8px 40px var(--shadow);
+  padding: 3rem 2rem;
+  text-align: center;
+  border: 3px solid var(--border);
+}
+.result-emoji { font-size: 5rem; margin-bottom: 0.5rem; }
+.result-score {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 5rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.result-label { font-size: 1.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+.result-sub { font-size: 1.1rem; color: var(--text2); margin-bottom: 2rem; font-weight: 600; }
+.result-detail {
+  background: var(--bg);
+  border-radius: 16px;
+  padding: 1.2rem;
+  margin-bottom: 2rem;
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--text2);
+}
+.result-detail span { color: var(--primary); font-weight: 900; }
+
+.btn-green {
+  background: linear-gradient(135deg, var(--green), #059669);
+  color: white; border: none; border-radius: 16px;
+  padding: 16px 36px;
+  font-size: 1.2rem; font-weight: 900;
+  cursor: pointer; font-family: 'Nunito', sans-serif;
+  box-shadow: 0 6px 20px rgba(6,214,160,0.35);
+  transition: transform 0.2s;
+  margin: 0.4rem;
+}
+.btn-green:hover { transform: translateY(-3px); }
+
+.saved-msg {
+  background: #d1fae5; color: #065f46;
+  border: 3px solid var(--green);
+  border-radius: 14px;
+  padding: 1rem;
+  font-size: 1.1rem; font-weight: 800;
+  margin-top: 1rem;
+  display: none;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text3);
+  font-size: 0.95rem; font-weight: 600;
+}
+footer span { color: var(--primary); font-weight: 800; }
+
+/* ── LOADING ── */
+.loading {
+  text-align: center; padding: 3rem;
+  font-size: 1.3rem; font-weight: 800; color: var(--primary);
+}
+.spinner {
+  width: 50px; height: 50px;
+  border: 5px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 1rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── ERROR ── */
+.error-card {
+  background: #fff5f5;
+  border: 3px solid var(--red);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.1rem; font-weight: 700;
+  color: #991b1b;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">🎓 LIVE WORKSHOP QUIZ</div>
+  <h1>AI · Machine Learning · Deep Learning</h1>
+  <p>Dr. C V Krishnaveni · SKR &amp; SKR GCW(A), Kadapa</p>
+</div>
+
+<main class="main">
+
+  <!-- LOADING -->
+  <div class="screen active" id="screenLoading">
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading session details…
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="screen" id="screenError">
+    <div class="error-card">
+      <div style="font-size:3rem;margin-bottom:1rem">⚠️</div>
+      <div id="errorMsg">Invalid quiz link. Please ask your teacher for the correct link.</div>
+    </div>
+  </div>
+
+  <!-- JOIN FORM -->
+  <div class="screen" id="screenJoin">
+    <div class="join-card">
+      <h2>👋 Welcome!</h2>
+      <p class="sub">Enter your details to begin the quiz</p>
+
+      <div class="session-info">
+        <div class="si-icon" id="discIcon">🌐</div>
+        <div>
+          <div class="si-title" id="sessionTitle">Loading…</div>
+          <div class="si-sub" id="sessionSub">10 Questions · 50 Points</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>📛 Your Full Name</label>
+        <input type="text" id="studentName" placeholder="Enter your full name">
+      </div>
+      <div class="field">
+        <label>🎓 Department / Class</label>
+        <input type="text" id="studentDept" placeholder="e.g. B.Com 2nd Year, B.A. Telugu">
+      </div>
+      <div class="field">
+        <label>📱 Roll Number (optional)</label>
+        <input type="text" id="studentRoll" placeholder="e.g. 2024001">
+      </div>
+
+      <button class="btn-primary" onclick="startQuiz()">🚀 Start Quiz!</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="screen" id="screenQuiz">
+    <div class="quiz-header">
+      <div>
+        <div class="player-name" id="playerName">Student</div>
+        <div style="font-size:0.95rem;color:var(--text3);font-weight:600" id="playerDept"></div>
+      </div>
+      <div class="score-chip">⭐ <span id="liveScore">0</span>/50</div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+
+    <div class="q-dots" id="qDots"></div>
+
+    <div class="question-card">
+      <div class="q-label" id="qLabel">Question 1 of 10</div>
+      <div class="q-text" id="qText">Loading…</div>
+    </div>
+
+    <div class="options" id="optionsWrap"></div>
+    <div class="feedback-box" id="feedbackBox"></div>
+
+    <button class="btn-primary" id="nextBtn" onclick="nextQ()" style="display:none">
+      Next Question →
+    </button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screenResult">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji">🎉</div>
+      <div class="result-score" id="resultScore">40/50</div>
+      <div class="result-label" id="resultLabel">Excellent!</div>
+      <div class="result-sub" id="resultSub">You answered 8 out of 10 correctly</div>
+      <div class="result-detail">
+        Name: <span id="rdName"></span> &nbsp;|&nbsp;
+        Class: <span id="rdDept"></span><br>
+        Discipline: <span id="rdDisc"></span> &nbsp;|&nbsp;
+        Score: <span id="rdScore"></span>
+      </div>
+      <div>
+        <button class="btn-green" onclick="saveToFirebase()">💾 Save My Score</button>
+      </div>
+      <div class="saved-msg" id="savedMsg">
+        ✅ Score saved! You can see your rank on the leaderboard. Well done!
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Designed &amp; Developed by <span>Dr. C V Krishnaveni</span><br>
+  Lecturer in Computer Science · SKR &amp; SKR GCW(A), Kadapa, Andhra Pradesh, India<br>
+  <span style="font-size:0.85rem;color:var(--text3)">© 2026 Dr. C V Krishnaveni · All Rights Reserved</span>
+</footer>
+
+<!-- Firebase -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-database-compat.min.js"></script>
+<script>
+// ── FIREBASE ──
+const firebaseConfig = {
+  apiKey: "AIzaSyCdlvqiZ60z3BZ8osjlmN-J3shMWl7Z6cM",
+  authDomain: "aai-drcvk-interactive-webapp.firebaseapp.com",
+  databaseURL: "https://aai-drcvk-interactive-webapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "aai-drcvk-interactive-webapp",
+  storageBucket: "aai-drcvk-interactive-webapp.firebasestorage.app",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ── QUESTION BANKS ──
+const QUESTIONS = {
+  general: [
+    { q: 'Who coined the term "Artificial Intelligence"?', opts: ['Alan Turing','John McCarthy','Marvin Minsky','Geoffrey Hinton'], ans: 1 },
+    { q: 'Which AI type exists TODAY and is everywhere around us?', opts: ['General AI (AGI)','Super AI (ASI)','Narrow AI (ANI)','Cosmic AI'], ans: 2 },
+    { q: 'Deep Learning is a subset of:', opts: ['AI only','ML only','Both AI & ML','Neither'], ans: 2 },
+    { q: 'Which architecture powers ChatGPT?', opts: ['CNN','RNN','GAN','Transformer'], ans: 3 },
+    { q: 'Training data WITH labels = which ML type?', opts: ['Unsupervised','Reinforcement','Supervised','All types'], ans: 2 },
+    { q: 'The Turing Test was proposed in which year?', opts: ['1943','1956','1950','1969'], ans: 2 },
+    { q: 'Which DL network type is best for recognising images?', opts: ['RNN','GAN','CNN','Transformer'], ans: 2 },
+    { q: 'AI that generates fake images uses which architecture?', opts: ['CNN','Transformer','GAN','Decision Tree'], ans: 2 },
+    { q: '"Intelligence is the ability to adapt to change." — Who said this?', opts: ['John McCarthy','Stephen Hawking','Alan Turing','Elon Musk'], ans: 1 },
+    { q: 'Which of these does NOT use AI?', opts: ['Netflix recommendations','Basic calculator','Google Maps','Spam filter'], ans: 1 },
+  ],
+  commerce: [
+    { q: 'Banks use ML to detect unusual transactions automatically. This is called:', opts: ['Data Mining','Fraud Detection','Ledger Balancing','Credit Reporting'], ans: 1 },
+    { q: 'Amazon\'s "You may also like" feature uses which type of ML?', opts: ['Supervised Learning','Reinforcement Learning','Recommendation / Unsupervised','Rule-Based AI'], ans: 2 },
+    { q: 'Which AI system manages investments automatically without humans?', opts: ['Chatbot','Robo-Advisor','ERP System','Blockchain'], ans: 1 },
+    { q: 'Uber\'s surge pricing that changes automatically is powered by:', opts: ['Human pricing teams','ML algorithms','Government rules','Fixed price tables'], ans: 1 },
+    { q: 'Automated customer service bots that answer 24/7 use:', opts: ['Pre-written FAQs only','NLP and Machine Learning','Call centre staff','Database lookup'], ans: 1 },
+    { q: 'AI used to automatically check financial statements for errors is used in:', opts: ['Marketing','HR Management','Accounting & Audit','Logistics'], ans: 2 },
+    { q: 'Supply chain AI helps companies like Amazon to:', opts: ['Increase staff count','Predict demand and reduce waste','Print more invoices','Open new offices'], ans: 1 },
+    { q: 'Credit scoring for loan approval mainly uses which ML type?', opts: ['Unsupervised Learning','Supervised Learning','Reinforcement Learning','Deep Learning only'], ans: 1 },
+    { q: 'Reading customer reviews and detecting sentiment (positive/negative) is:', opts: ['Computer Vision','Natural Language Processing','Image Recognition','Robotics'], ans: 1 },
+    { q: 'Who coined the term "Artificial Intelligence" in 1956?', opts: ['Bill Gates','John McCarthy','Jeff Bezos','Alan Turing'], ans: 1 },
+  ],
+  humanities: [
+    { q: 'Google Translate (109 languages, real-time) uses which DL architecture?', opts: ['CNN','GAN','Transformer','Decision Tree'], ans: 2 },
+    { q: 'AI that creates new content like paintings and music is called:', opts: ['Narrow AI','Generative AI','Supervised AI','Rule-based AI'], ans: 1 },
+    { q: 'Which AI tool generates images from text descriptions?', opts: ['ChatGPT','DALL-E / Midjourney','AlphaFold','Deep Blue'], ans: 1 },
+    { q: 'AI helping archaeologists restore damaged ancient manuscripts uses:', opts: ['Supervised classification','Computer Vision & OCR','Reinforcement Learning','Rule-based systems'], ans: 1 },
+    { q: 'Spotify\'s personalised weekly song recommendations use:', opts: ['Human curators only','Random selection','Collaborative filtering ML','Alphabetical ordering'], ans: 2 },
+    { q: 'ChatGPT can write essays and stories because it is a:', opts: ['CNN','Large Language Model (LLM)','GAN','Decision Tree'], ans: 1 },
+    { q: '"Deepfake" videos that look real are created using which AI?', opts: ['CNN','RNN','GAN','Transformer'], ans: 2 },
+    { q: 'Which is the biggest concern about AI-generated misinformation?', opts: ['Bias in data','Deepfakes & fake news','Energy usage','Storage costs'], ans: 1 },
+    { q: 'AI detecting who wrote a literary work (authorship) uses:', opts: ['Computer Vision','Natural Language Processing','Image Recognition','Quantum computing'], ans: 1 },
+    { q: '"Intelligence is the ability to adapt to change" — Stephen Hawking. What is this related to?', opts: ['Human memory','Definition of intelligence','Speed of computers','Internet bandwidth'], ans: 1 },
+  ],
+  science: [
+    { q: 'Which AI solved the 50-year-old protein folding problem in biology?', opts: ['ChatGPT','AlphaFold','AlphaGo','AlphaCode'], ans: 1 },
+    { q: 'AI detecting cancer in X-ray images uses which network?', opts: ['RNN','GAN','CNN','Transformer'], ans: 2 },
+    { q: 'Google\'s GraphCast AI is used for:', opts: ['Language translation','Weather prediction','Protein analysis','Drug manufacturing'], ans: 1 },
+    { q: 'A farmer photographs a diseased crop leaf and AI identifies the disease. This uses:', opts: ['Computer Vision & ML','Accounting software','Blockchain','Sensors only'], ans: 0 },
+    { q: 'NASA uses ML to analyse telescope data to:', opts: ['Predict Earth weather','Discover exoplanets','Route internet traffic','Control GPS navigation'], ans: 1 },
+    { q: 'With AI assistance, drug discovery can now be done in:', opts: ['Same time as before','Longer time','Days instead of years','Exactly 5 years'], ans: 2 },
+    { q: 'AI modelling how temperatures will rise due to climate change is an example of:', opts: ['Narrow AI in Science','AGI application','Applied ML for Climate','Human simulation only'], ans: 2 },
+    { q: 'The Mars rover uses which type of ML to navigate rocky terrain?', opts: ['Supervised Learning','Unsupervised','Reinforcement Learning','No ML used'], ans: 2 },
+    { q: 'Personalised medicine uses AI to:', opts: ['Standardise all treatments','Tailor treatment to each patient\'s data','Replace all doctors','Reduce hospital size'], ans: 1 },
+    { q: 'Deep Learning requires which hardware for training large models?', opts: ['Basic laptop CPU','GPU or TPU','Pen and paper','Simple CPU only'], ans: 1 },
+  ],
+  cs: [
+    { q: 'GitHub Copilot writes approximately what percentage of developer code?', opts: ['10%','46%','90%','5%'], ans: 1 },
+    { q: 'ChatGPT is based on which neural network architecture?', opts: ['CNN','RNN','GAN','Transformer'], ans: 3 },
+    { q: 'Natural Language Processing (NLP) powers which applications?', opts: ['Image recognition','Chatbots and search engines','Fraud detection only','Self-driving cars'], ans: 1 },
+    { q: 'Face recognition systems use which deep learning type?', opts: ['RNN','GAN','CNN','Decision Tree'], ans: 2 },
+    { q: 'Which companies offer ready-made AI APIs on the cloud?', opts: ['Only Google','AWS, Google Cloud, and Azure','Only Microsoft','None yet'], ans: 1 },
+    { q: 'ML that detects network intrusions and classifies malware is used in:', opts: ['Web design','Cybersecurity','Accounting','E-commerce only'], ans: 1 },
+    { q: 'BERT and GPT models are types of:', opts: ['CNN architectures','Transformer-based Large Language Models','GAN models','Decision trees'], ans: 1 },
+    { q: 'In which year was the Transformer architecture (Attention is All You Need) published?', opts: ['2012','2015','2017','2022'], ans: 2 },
+    { q: 'The paper "Attention is All You Need" introduced which architecture?', opts: ['CNN','RNN','GAN','Transformer'], ans: 3 },
+    { q: 'Which is the correct relationship between AI, ML, and DL?', opts: ['ML ⊂ DL ⊂ AI','AI ⊂ ML ⊂ DL','DL ⊂ ML ⊂ AI','All are separate fields'], ans: 2 },
+  ],
+};
+
+const DISC_META = {
+  general:    { icon: '🌐', label: 'General Quiz',    color: '#4361ee' },
+  commerce:   { icon: '💼', label: 'Commerce Quiz',   color: '#7209b7' },
+  humanities: { icon: '🎓', label: 'Humanities Quiz', color: '#f72585' },
+  science:    { icon: '🔬', label: 'Science Quiz',    color: '#06d6a0' },
+  cs:         { icon: '💻', label: 'CS / IT Quiz',    color: '#fb8500' },
+};
+
+// ── STATE ──
+let sessionKey = null;
+let discipline = null;
+let questions = [];
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let dotStates = [];
+let studentData = {};
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  sessionKey = params.get('session');
+  discipline  = params.get('disc');
+
+  if (!sessionKey || !discipline || !QUESTIONS[discipline]) {
+    showScreen('screenError');
+    document.getElementById('errorMsg').textContent =
+      'Invalid quiz link. Please ask your teacher for the correct link. (Missing session or discipline parameter)';
+    return;
+  }
+
+  // Verify session exists in Firebase
+  db.ref('sessions/' + sessionKey).once('value').then(snap => {
+    if (!snap.exists()) {
+      showScreen('screenError');
+      document.getElementById('errorMsg').textContent =
+        'This session does not exist or has been closed. Ask your teacher for the current link.';
+      return;
+    }
+    const sess = snap.val();
+    const meta = DISC_META[discipline];
+    document.getElementById('discIcon').textContent = meta.icon;
+    document.getElementById('sessionTitle').textContent = meta.label + ' — ' + (sess.college || 'Workshop');
+    document.getElementById('sessionSub').textContent =
+      (sess.className || '') + ' · 10 Questions · 50 Points';
+    showScreen('screenJoin');
+  }).catch(() => {
+    showScreen('screenError');
+    document.getElementById('errorMsg').textContent = 'Could not connect to server. Check your internet and try again.';
+  });
+});
+
+function startQuiz() {
+  const name = document.getElementById('studentName').value.trim();
+  const dept = document.getElementById('studentDept').value.trim();
+  const roll = document.getElementById('studentRoll').value.trim();
+  if (!name) { alert('Please enter your name!'); return; }
+  if (!dept) { alert('Please enter your department/class!'); return; }
+
+  studentData = { name, dept, roll, discipline, sessionKey };
+
+  questions = shuffle([...QUESTIONS[discipline]]).slice(0, 10);
+  currentQ = 0; score = 0; answered = false;
+  dotStates = new Array(10).fill('');
+
+  document.getElementById('playerName').textContent = name;
+  document.getElementById('playerDept').textContent = dept;
+  renderDots();
+  renderQuestion();
+  showScreen('screenQuiz');
+}
+
+function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
+
+function renderDots() {
+  document.getElementById('qDots').innerHTML =
+    dotStates.map((s, i) => `<div class="q-dot ${i === currentQ ? 'current' : s}" id="dot${i}"></div>`).join('');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[currentQ];
+  const labels = ['A', 'B', 'C', 'D'];
+
+  document.getElementById('qLabel').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progressBar').style.width = `${(currentQ / 10) * 100}%`;
+  document.getElementById('feedbackBox').className = 'feedback-box';
+  document.getElementById('feedbackBox').textContent = '';
+  document.getElementById('nextBtn').style.display = 'none';
+
+  document.getElementById('optionsWrap').innerHTML = q.opts.map((o, i) =>
+    `<button class="opt" id="opt${i}" onclick="answer(${i})">
+      <div class="opt-badge">${labels[i]}</div>
+      <span>${o}</span>
+    </button>`
+  ).join('');
+
+  renderDots();
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentQ];
+  const correct = idx === q.ans;
+  if (correct) { score += 5; dotStates[currentQ] = 'done'; }
+  else { dotStates[currentQ] = 'wrong'; }
+
+  document.querySelectorAll('.opt').forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    if (i === idx && !correct) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedbackBox');
+  if (correct) {
+    fb.textContent = '✅ Correct! +5 points';
+    fb.className = 'feedback-box correct';
+  } else {
+    fb.textContent = `❌ Incorrect. Correct answer: ${q.opts[q.ans]}`;
+    fb.className = 'feedback-box wrong';
+  }
+
+  document.getElementById('liveScore').textContent = score;
+  renderDots();
+
+  if (currentQ < questions.length - 1) {
+    document.getElementById('nextBtn').style.display = 'block';
+  } else {
+    setTimeout(showResult, 1400);
+  }
+}
+
+function nextQ() {
+  currentQ++;
+  renderQuestion();
+}
+
+function showResult() {
+  document.getElementById('progressBar').style.width = '100%';
+  const pct = (score / 50) * 100;
+  let emoji, label, sub;
+  if (pct === 100)   { emoji='🏆'; label='Perfect Score!';   sub='Outstanding! You are an AI Champion!'; }
+  else if (pct >= 80){ emoji='🌟'; label='Excellent!';        sub='Brilliant performance! Well done!'; }
+  else if (pct >= 60){ emoji='👍'; label='Good Job!';         sub='Great understanding! Keep learning!'; }
+  else if (pct >= 40){ emoji='📚'; label='Keep Studying!';    sub='Review the slides and try again!'; }
+  else               { emoji='💪'; label='Don\'t Give Up!';   sub='Practice makes perfect!'; }
+
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultScore').textContent = `${score}/50`;
+  document.getElementById('resultLabel').textContent = label;
+  document.getElementById('resultSub').textContent = `${sub} (${score/5} out of 10 correct)`;
+  document.getElementById('rdName').textContent = studentData.name;
+  document.getElementById('rdDept').textContent = studentData.dept;
+  document.getElementById('rdDisc').textContent = DISC_META[discipline].label;
+  document.getElementById('rdScore').textContent = score + '/50';
+
+  showScreen('screenResult');
+}
+
+function saveToFirebase() {
+  const entry = {
+    name: studentData.name,
+    dept: studentData.dept,
+    roll: studentData.roll || '',
+    discipline: DISC_META[discipline].label,
+    discKey: discipline,
+    score: score,
+    total: 50,
+    correct: score / 5,
+    sessionKey: sessionKey,
+    timestamp: Date.now(),
+    submittedAt: new Date().toLocaleString('en-IN'),
+  };
+
+  const ref = db.ref('scores/' + sessionKey).push();
+  ref.set(entry).then(() => {
+    document.getElementById('savedMsg').style.display = 'block';
+    document.querySelector('.btn-green').disabled = true;
+    document.querySelector('.btn-green').textContent = '✅ Saved!';
+  }).catch(err => {
+    alert('Could not save score. Check your internet connection. Error: ' + err.message);
+  });
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

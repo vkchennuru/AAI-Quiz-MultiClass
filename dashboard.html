@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop Dashboard — Dr. C V Krishnaveni</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f4ff;
+  --bg2: #e8eeff;
+  --white: #ffffff;
+  --border: #c8d4f0;
+  --shadow: rgba(67,97,238,0.12);
+  --primary: #4361ee;
+  --primary2: #3a0ca3;
+  --accent: #f72585;
+  --green: #06d6a0;
+  --orange: #fb8500;
+  --yellow: #ffbe0b;
+  --red: #ef233c;
+  --purple: #7209b7;
+  --text: #1a1a2e;
+  --text2: #4a5568;
+  --text3: #718096;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+/* ── SIDEBAR ── */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 260px; flex-shrink: 0;
+  background: linear-gradient(180deg, var(--primary2) 0%, var(--primary) 100%);
+  color: white;
+  padding: 0;
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.sidebar-brand {
+  padding: 1.8rem 1.5rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.sidebar-brand h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.5rem; font-weight: 900;
+  line-height: 1.2;
+}
+.sidebar-brand p {
+  font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem; line-height: 1.4;
+}
+.sidebar-nav { padding: 1rem 0; flex: 1; }
+.nav-item {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-size: 1.05rem; font-weight: 700;
+  opacity: 0.75;
+  transition: all 0.2s;
+  border-left: 4px solid transparent;
+}
+.nav-item:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+.nav-item.active { opacity: 1; background: rgba(255,255,255,0.15); border-left-color: var(--yellow); }
+.nav-item .nav-icon { font-size: 1.4rem; width: 32px; text-align: center; }
+.sidebar-footer {
+  padding: 1.2rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  font-size: 0.8rem; opacity: 0.7; line-height: 1.6;
+}
+
+/* ── MAIN CONTENT ── */
+.content { flex: 1; overflow-x: hidden; padding: 2rem; }
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  margin-bottom: 2rem;
+}
+.page-header h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 900;
+  color: var(--primary2);
+  margin-bottom: 0.3rem;
+}
+.page-header p { font-size: 1.1rem; color: var(--text2); font-weight: 600; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px var(--shadow);
+  border: 3px solid var(--border);
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+.card h3 {
+  font-size: 1.2rem; font-weight: 900;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+
+/* ── STAT CARDS ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px var(--shadow);
+  border: 3px solid var(--border);
+  padding: 1.5rem;
+  text-align: center;
+}
+.stat-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.stat-num {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 2.5rem; font-weight: 900;
+  color: var(--primary);
+  line-height: 1;
+}
+.stat-label { font-size: 1rem; color: var(--text2); font-weight: 700; margin-top: 0.3rem; }
+
+/* ── FORM ELEMENTS ── */
+.field { margin-bottom: 1.2rem; }
+.field label {
+  display: block; font-size: 1.05rem; font-weight: 800;
+  margin-bottom: 0.5rem; color: var(--text);
+}
+.field input, .field select, .field textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 3px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 1.1rem; color: var(--text);
+  font-family: 'Nunito', sans-serif; font-weight: 700;
+  transition: border-color 0.2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--primary); background: white;
+}
+.field select option { background: white; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
+
+/* ── BUTTONS ── */
+.btn { border: none; border-radius: 12px; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem; padding: 12px 24px; transition: all 0.2s; }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary2)); color: white; box-shadow: 0 4px 15px rgba(67,97,238,0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(67,97,238,0.4); }
+.btn-green { background: linear-gradient(135deg, var(--green), #059669); color: white; box-shadow: 0 4px 15px rgba(6,214,160,0.3); }
+.btn-green:hover { transform: translateY(-2px); }
+.btn-orange { background: linear-gradient(135deg, var(--orange), #e65100); color: white; }
+.btn-orange:hover { transform: translateY(-2px); }
+.btn-red { background: linear-gradient(135deg, var(--red), #9b1c1c); color: white; }
+.btn-red:hover { transform: translateY(-2px); }
+.btn-sm { padding: 8px 16px; font-size: 0.95rem; }
+.btn-full { width: 100%; padding: 16px; font-size: 1.2rem; }
+
+/* ── DISCIPLINE CHIPS ── */
+.disc-chips { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.disc-chip {
+  padding: 8px 18px; border-radius: 50px;
+  font-size: 1rem; font-weight: 800; cursor: pointer;
+  border: 3px solid transparent; transition: all 0.2s;
+  background: var(--bg2); color: var(--text2);
+}
+.disc-chip:hover { transform: translateY(-2px); }
+.disc-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* ── SESSION LIST ── */
+.session-list { display: flex; flex-direction: column; gap: 1rem; }
+.session-item {
+  background: var(--white);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px var(--shadow);
+  transition: all 0.2s;
+}
+.session-item:hover { transform: translateY(-3px); box-shadow: 0 8px 25px var(--shadow); }
+.session-item-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.session-title { font-size: 1.2rem; font-weight: 900; color: var(--primary2); }
+.session-meta { font-size: 0.95rem; color: var(--text2); font-weight: 600; margin-top: 0.2rem; }
+.session-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.badge {
+  padding: 4px 14px; border-radius: 50px;
+  font-size: 0.9rem; font-weight: 800;
+}
+.badge-blue { background: #dbeafe; color: #1d4ed8; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-orange { background: #fed7aa; color: #9a3412; }
+.badge-purple { background: #ede9fe; color: #6b21a8; }
+.session-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; }
+
+/* ── LEADERBOARD TABLE ── */
+.lb-wrap { overflow-x: auto; }
+.lb-table {
+  width: 100%; border-collapse: collapse; min-width: 500px;
+}
+.lb-table th {
+  background: var(--bg2);
+  padding: 14px 16px;
+  text-align: left; font-weight: 900; font-size: 1rem;
+  border-bottom: 3px solid var(--border);
+  color: var(--text2);
+  white-space: nowrap;
+}
+.lb-table td {
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--bg2);
+  font-size: 1rem; font-weight: 600;
+}
+.lb-table tr:nth-child(even) td { background: #fafbff; }
+.lb-table tr:hover td { background: #eef2ff; }
+.rank-1 td:first-child { color: #d97706; font-size: 1.3rem; font-weight: 900; }
+.rank-2 td:first-child { color: #9ca3af; font-size: 1.3rem; font-weight: 900; }
+.rank-3 td:first-child { color: #b45309; font-size: 1.3rem; font-weight: 900; }
+.score-pill {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white; padding: 4px 14px; border-radius: 50px;
+  font-weight: 900; font-size: 1rem;
+}
+
+/* ── LINK BOX ── */
+.link-box {
+  background: var(--bg2);
+  border: 3px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  font-family: monospace; font-size: 1rem;
+  word-break: break-all; color: var(--primary2);
+  margin-bottom: 0.8rem;
+}
+
+/* ── DISC SELECT GRID ── */
+.disc-select-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+.disc-sel-btn {
+  padding: 12px 8px; border-radius: 14px;
+  font-size: 1rem; font-weight: 800; cursor: pointer;
+  border: 3px solid var(--border);
+  background: var(--bg2); color: var(--text2);
+  transition: all 0.2s; text-align: center;
+  font-family: 'Nunito', sans-serif;
+}
+.disc-sel-btn:hover { border-color: var(--primary); background: #eef2ff; }
+.disc-sel-btn.sel { border-color: var(--primary); background: var(--primary); color: white; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  background: var(--green); color: white;
+  padding: 14px 28px; border-radius: 14px;
+  font-weight: 900; font-size: 1.1rem;
+  transform: translateY(120px); opacity: 0;
+  transition: all 0.3s;
+  box-shadow: 0 8px 25px rgba(6,214,160,0.4);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ── LIVE BADGE ── */
+.live-dot {
+  display: inline-block; width: 12px; height: 12px;
+  background: var(--green); border-radius: 50%;
+  animation: blink 1.2s infinite;
+  margin-right: 6px;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ── MOBILE HAMBURGER ── */
+.hamburger {
+  display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200;
+  background: var(--primary); color: white;
+  border: none; border-radius: 12px; padding: 10px 14px;
+  font-size: 1.3rem; cursor: pointer;
+}
+@media(max-width: 900px) {
+  .sidebar { position: fixed; left: -270px; z-index: 100; transition: left 0.3s; height: 100vh; }
+  .sidebar.open { left: 0; }
+  .hamburger { display: block; }
+  .content { padding: 1rem; padding-top: 4rem; }
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center; padding: 3rem;
+  color: var(--text3); font-size: 1.1rem; font-weight: 700;
+}
+.empty-state .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
+
+/* ── SUMMARY SECTION ── */
+.summary-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem; margin-bottom: 1.5rem;
+}
+.summary-item {
+  background: var(--bg2);
+  border-radius: 14px; padding: 1rem;
+  text-align: center;
+}
+.summary-item .s-num {
+  font-size: 2rem; font-weight: 900; color: var(--primary);
+}
+.summary-item .s-label { font-size: 0.95rem; color: var(--text2); font-weight: 700; }
+
+/* ── ALERT ── */
+.alert {
+  border-radius: 14px; padding: 1rem 1.2rem;
+  font-size: 1.05rem; font-weight: 700;
+  margin-bottom: 1rem;
+}
+.alert-info { background: #dbeafe; color: #1d4ed8; border: 2px solid #93c5fd; }
+.alert-success { background: #d1fae5; color: #065f46; border: 2px solid #6ee7b7; }
+
+/* ── LOGIN ── */
+.login-wrap {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  background-image: radial-gradient(circle at 20% 50%, rgba(67,97,238,0.1) 0%, transparent 60%);
+}
+.login-card {
+  background: white;
+  border-radius: 28px;
+  box-shadow: 0 10px 50px rgba(67,97,238,0.15);
+  border: 3px solid var(--border);
+  padding: 3rem 2.5rem;
+  width: 100%; max-width: 420px;
+  text-align: center;
+}
+.login-card h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 2rem; font-weight: 900; color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+.login-card p { color: var(--text2); font-size: 1.05rem; margin-bottom: 2rem; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginWrap" class="login-wrap">
+  <div class="login-card">
+    <div style="font-size:3.5rem;margin-bottom:0.5rem">🔐</div>
+    <h1>Workshop Dashboard</h1>
+    <p>Dr. C V Krishnaveni<br>SKR &amp; SKR GCW(A), Kadapa</p>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="pwInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()">🚀 Login to Dashboard</button>
+    <div id="loginErr" style="color:var(--red);font-weight:800;margin-top:1rem;display:none">
+      ❌ Wrong password. Try again.
+    </div>
+  </div>
+</div>
+
+<!-- HAMBURGER -->
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()" style="display:none">☰</button>
+
+<!-- MAIN APP -->
+<div class="layout" id="app" style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <h1>⚡ Workshop<br>Dashboard</h1>
+      <p>Dr. C V Krishnaveni<br>SKR &amp; SKR GCW(A), Kadapa</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showPage('pageOverview')">
+        <span class="nav-icon">🏠</span> Overview
+      </div>
+      <div class="nav-item" onclick="showPage('pageNewSession')">
+        <span class="nav-icon">➕</span> New Session
+      </div>
+      <div class="nav-item" onclick="showPage('pageSessions')">
+        <span class="nav-icon">📋</span> All Sessions
+      </div>
+      <div class="nav-item" onclick="showPage('pageShare')">
+        <span class="nav-icon">📤</span> Share Links
+      </div>
+      <div class="nav-item" onclick="showPage('pageEvidence')">
+        <span class="nav-icon">📄</span> CAS Evidence
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      © 2026 Dr. C V Krishnaveni<br>All Rights Reserved
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- ── OVERVIEW ── -->
+    <div class="page active" id="pageOverview">
+      <div class="page-header">
+        <h2>🏠 Overview</h2>
+        <p>All your workshop sessions at a glance</p>
+      </div>
+
+      <div class="stats-row" id="overviewStats">
+        <div class="stat-card">
+          <div class="stat-icon">🎓</div>
+          <div class="stat-num" id="statSessions">0</div>
+          <div class="stat-label">Total Sessions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👩‍🎓</div>
+          <div class="stat-num" id="statStudents">0</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏫</div>
+          <div class="stat-num" id="statColleges">0</div>
+          <div class="stat-label">Colleges</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-num" id="statAvg">0</div>
+          <div class="stat-label">Avg Score / 50</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Recent Sessions</h3>
+        <div id="recentSessions">
+          <div class="empty-state"><div class="empty-icon">📂</div>No sessions yet. Create your first session!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NEW SESSION ── -->
+    <div class="page" id="pageNewSession">
+      <div class="page-header">
+        <h2>➕ Create New Session</h2>
+        <p>Create a session for each class/college you visit</p>
+      </div>
+
+      <div class="card">
+        <h3>📝 Session Details</h3>
+        <div class="form-row">
+          <div class="field">
+            <label>🏫 College Name</label>
+            <input type="text" id="newCollege" placeholder="e.g. Govt. Degree College, Avanigadda">
+          </div>
+          <div class="field">
+            <label>📍 City / District</label>
+            <input type="text" id="newCity" placeholder="e.g. Avanigadda, Krishna Dist.">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>🎓 Class / Department</label>
+            <input type="text" id="newClass" placeholder="e.g. B.Com 2nd Year, Commerce Dept.">
+          </div>
+          <div class="field">
+            <label>📅 Date</label>
+            <input type="date" id="newDate">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>📚 Workshop Topic</label>
+            <input type="text" id="newTopic" value="AI, Machine Learning and Deep Learning">
+          </div>
+          <div class="field">
+            <label>🌐 Discipline / Quiz Type</label>
+            <select id="newDisc">
+              <option value="general">🌐 General (All disciplines)</option>
+              <option value="commerce">💼 Commerce</option>
+              <option value="humanities">🎓 Humanities</option>
+              <option value="science">🔬 Science</option>
+              <option value="cs">💻 CS / IT</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>📝 Notes (optional)</label>
+          <textarea id="newNotes" rows="2" placeholder="Any notes about this session..."></textarea>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="createSession()">🚀 Create Session &amp; Get Quiz Link</button>
+      </div>
+
+      <div class="card" id="newSessionResult" style="display:none">
+        <h3>✅ Session Created!</h3>
+        <div class="alert alert-success" id="newSessionMsg"></div>
+        <div class="field">
+          <label>📤 Student Quiz Link — Share this!</label>
+          <div class="link-box" id="newSessionLink"></div>
+        </div>
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="copyNewLink()">📋 Copy Link</button>
+          <button class="btn btn-green" onclick="showPage('pageShare')">📤 Go to Share Page</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ALL SESSIONS ── -->
+    <div class="page" id="pageSessions">
+      <div class="page-header">
+        <h2>📋 All Sessions</h2>
+        <p>View, monitor, and download data from every session</p>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem">
+        <div style="font-size:1.1rem;font-weight:700;color:var(--text2)">
+          <span class="live-dot"></span> Live data from Firebase
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="loadAllSessions()">🔄 Refresh</button>
+      </div>
+
+      <div id="allSessionsList">
+        <div class="empty-state"><div class="empty-icon">📂</div>Loading sessions…</div>
+      </div>
+    </div>
+
+    <!-- ── SHARE LINKS ── -->
+    <div class="page" id="pageShare">
+      <div class="page-header">
+        <h2>📤 Share Quiz Links</h2>
+        <p>Generate links for each discipline — share on WhatsApp or projector</p>
+      </div>
+
+      <div class="card">
+        <h3>1️⃣ Select Your Session</h3>
+        <div class="field">
+          <label>Which session are you currently running?</label>
+          <select id="shareSessionSelect">
+            <option value="">— Select a session —</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2️⃣ Choose Discipline</h3>
+        <div class="disc-select-grid">
+          <button class="disc-sel-btn sel" onclick="setShareDisc('general',this)">🌐<br>General</button>
+          <button class="disc-sel-btn" onclick="setShareDisc('commerce',this)">💼<br>Commerce</button>
+          <button class="disc-sel-btn" onclick="setShareDisc('humanities',this)">🎓<br>Humanities</button>
+          <button class="disc-sel-btn" onclick="setShareDisc('science',this)">🔬<br>Science</button>
+          <button class="disc-sel-btn" onclick="setShareDisc('cs',this)">💻<br>CS/IT</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>3️⃣ Your Quiz Link</h3>
+        <div class="link-box" id="shareLink">Select a session above to generate the link</div>
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="copyShareLink()">📋 Copy Link</button>
+          <button class="btn btn-green" onclick="openShareLink()">🔗 Open in New Tab</button>
+        </div>
+        <div class="alert alert-info" style="margin-top:1rem">
+          💡 Share this link on <strong>WhatsApp</strong> or paste it in the <strong>Zoom/Meet chat</strong>. Students open it on their phone and the quiz starts automatically!
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SESSION DETAIL / LEADERBOARD (inline) ── -->
+    <div class="page" id="pageDetail">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem">
+        <button class="btn btn-sm" onclick="showPage('pageSessions')"
+          style="background:var(--bg2);color:var(--text);border:3px solid var(--border)">
+          ← Back
+        </button>
+        <div class="page-header" style="margin-bottom:0;flex:1">
+          <h2 id="detailTitle">Session Details</h2>
+          <p id="detailSub"></p>
+        </div>
+        <button class="btn btn-green btn-sm" onclick="refreshDetail()">🔄 Refresh</button>
+        <button class="btn btn-orange btn-sm" onclick="downloadCSV()">⬇️ Download CSV</button>
+      </div>
+
+      <div class="summary-grid" id="detailSummary"></div>
+
+      <div class="card">
+        <h3><span class="live-dot"></span> Live Leaderboard</h3>
+        <div class="disc-chips" id="detailDiscFilter">
+          <div class="disc-chip active" onclick="filterDetailDisc('all',this)">All</div>
+          <div class="disc-chip" onclick="filterDetailDisc('general',this)">🌐 General</div>
+          <div class="disc-chip" onclick="filterDetailDisc('commerce',this)">💼 Commerce</div>
+          <div class="disc-chip" onclick="filterDetailDisc('humanities',this)">🎓 Humanities</div>
+          <div class="disc-chip" onclick="filterDetailDisc('science',this)">🔬 Science</div>
+          <div class="disc-chip" onclick="filterDetailDisc('cs',this)">💻 CS/IT</div>
+        </div>
+        <div class="lb-wrap">
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Dept / Class</th>
+                <th>Roll No.</th>
+                <th>Discipline</th>
+                <th>Score</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="detailLbBody">
+              <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text3)">Loading scores…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CAS EVIDENCE ── -->
+    <div class="page" id="pageEvidence">
+      <div class="page-header">
+        <h2>📄 CAS / Audit Evidence</h2>
+        <p>Generate reports for CAS, NAAC Profile, Annual Report, and Audit</p>
+      </div>
+
+      <div class="card">
+        <h3>📊 All-Sessions Summary Report</h3>
+        <div class="alert alert-info">
+          This report combines ALL sessions into a single downloadable CSV — perfect for CAS evidence, NAAC IQAC documentation, and audit records.
+        </div>
+        <div id="evidenceSummary" style="margin-bottom:1.5rem"></div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="downloadMasterCSV()">⬇️ Download Master CSV (All Sessions)</button>
+          <button class="btn btn-green" onclick="printEvidenceReport()">🖨️ Print Evidence Report</button>
+        </div>
+      </div>
+
+      <div class="card" id="printReport" style="display:none">
+        <div id="printContent"></div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Session-wise Summary</h3>
+        <div id="evidenceTable"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Done!</div>
+
+<!-- Firebase -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-database-compat.min.js"></script>
+<script>
+// ── FIREBASE ──
+const FB_CONFIG = {
+  apiKey: "AIzaSyCdlvqiZ60z3BZ8osjlmN-J3shMWl7Z6cM",
+  authDomain: "aai-drcvk-interactive-webapp.firebaseapp.com",
+  databaseURL: "https://aai-drcvk-interactive-webapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "aai-drcvk-interactive-webapp",
+  storageBucket: "aai-drcvk-interactive-webapp.firebasestorage.app",
+  messagingSenderId: "1051234567890",
+  appId: "1:1051234567890:web:workshopdashboard"
+};
+firebase.initializeApp(FB_CONFIG);
+const db = firebase.database();
+
+const PASSWORD = "DrKrishnaveni2026";
+const BASE_URL = window.location.origin + window.location.pathname.replace('dashboard.html','') + 'quiz.html';
+
+// ── STATE ──
+let allSessions = {};
+let allScores = {};
+let currentDetailKey = null;
+let currentDetailDisc = 'all';
+let shareDisc = 'general';
+let shareSessionKey = '';
+
+// ── LOGIN ──
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === PASSWORD) {
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    document.getElementById('hamburger').style.display = 'block';
+    loadOverview();
+    loadAllSessions();
+    loadShareSessions();
+    loadEvidenceSummary();
+    // Set today's date
+    document.getElementById('newDate').valueAsDate = new Date();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// ── PAGE NAVIGATION ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // Mark active nav
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(id)) n.classList.add('active');
+  });
+  closeSidebar();
+  window.scrollTo(0,0);
+  if (id === 'pageSessions') loadAllSessions();
+  if (id === 'pageEvidence') loadEvidenceSummary();
+}
+
+// ── SIDEBAR TOGGLE ──
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); }
+
+// ── CREATE SESSION ──
+function createSession() {
+  const college = document.getElementById('newCollege').value.trim();
+  const city    = document.getElementById('newCity').value.trim();
+  const cls     = document.getElementById('newClass').value.trim();
+  const date    = document.getElementById('newDate').value;
+  const topic   = document.getElementById('newTopic').value.trim();
+  const disc    = document.getElementById('newDisc').value;
+  const notes   = document.getElementById('newNotes').value.trim();
+
+  if (!college || !date) { alert('Please enter College Name and Date!'); return; }
+
+  // Generate session key
+  const slug = college.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').slice(0,20);
+  const dateSlug = date.replace(/-/g,'');
+  const sessionKey = slug + '-' + dateSlug + '-' + Math.random().toString(36).slice(2,6);
+
+  const session = {
+    college, city, className: cls, date, topic, discipline: disc,
+    notes, sessionKey,
+    createdAt: Date.now(),
+    createdAtStr: new Date().toLocaleString('en-IN'),
+  };
+
+  db.ref('sessions/' + sessionKey).set(session).then(() => {
+    const link = `${BASE_URL}?session=${sessionKey}&disc=${disc}`;
+    document.getElementById('newSessionMsg').textContent =
+      `✅ Session "${college}" created for ${date}!`;
+    document.getElementById('newSessionLink').textContent = link;
+    document.getElementById('newSessionResult').style.display = 'block';
+    showToast('✅ Session created successfully!');
+    loadAllSessions();
+    loadShareSessions();
+    loadEvidenceSummary();
+  }).catch(err => alert('Error: ' + err.message));
+}
+
+let newLinkValue = '';
+function copyNewLink() {
+  const link = document.getElementById('newSessionLink').textContent;
+  navigator.clipboard.writeText(link).catch(()=>{});
+  showToast('📋 Link copied!');
+}
+
+// ── LOAD OVERVIEW ──
+function loadOverview() {
+  db.ref('sessions').once('value').then(snap => {
+    const sessions = snap.val() || {};
+    const sessArr = Object.values(sessions);
+    document.getElementById('statSessions').textContent = sessArr.length;
+    const colleges = new Set(sessArr.map(s => s.college));
+    document.getElementById('statColleges').textContent = colleges.size;
+  });
+  db.ref('scores').once('value').then(snap => {
+    const all = snap.val() || {};
+    let total = 0, sum = 0;
+    Object.values(all).forEach(sess => {
+      Object.values(sess).forEach(s => { total++; sum += s.score || 0; });
+    });
+    document.getElementById('statStudents').textContent = total;
+    document.getElementById('statAvg').textContent = total ? (sum/total).toFixed(1) : '0';
+  });
+
+  // Recent sessions
+  db.ref('sessions').limitToLast(5).once('value').then(snap => {
+    const sessions = snap.val() || {};
+    const arr = Object.entries(sessions).reverse();
+    if (!arr.length) return;
+    document.getElementById('recentSessions').innerHTML = arr.map(([k,s]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;border-bottom:2px solid var(--bg2);gap:1rem;flex-wrap:wrap">
+        <div>
+          <div style="font-weight:800;font-size:1.05rem">${esc(s.college)}</div>
+          <div style="color:var(--text2);font-size:0.95rem">${esc(s.className||'')} · ${esc(s.date)} · ${esc(s.discipline||'general')}</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="viewSession('${k}')">👁️ View</button>
+      </div>
+    `).join('');
+  });
+}
+
+// ── LOAD ALL SESSIONS ──
+function loadAllSessions() {
+  db.ref('sessions').once('value').then(snap => {
+    allSessions = snap.val() || {};
+    return db.ref('scores').once('value');
+  }).then(snap => {
+    allScores = snap.val() || {};
+    renderAllSessions();
+  });
+}
+
+function renderAllSessions() {
+  const arr = Object.entries(allSessions).sort((a,b) => b[1].createdAt - a[1].createdAt);
+  if (!arr.length) {
+    document.getElementById('allSessionsList').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">📂</div>No sessions yet. Create one!</div>';
+    return;
+  }
+  document.getElementById('allSessionsList').innerHTML = arr.map(([k,s]) => {
+    const sessScores = allScores[k] ? Object.values(allScores[k]) : [];
+    const count = sessScores.length;
+    const avg = count ? (sessScores.reduce((a,b)=>a+(b.score||0),0)/count).toFixed(1) : '-';
+    const discColors = { general:'badge-blue', commerce:'badge-purple', humanities:'badge-orange', science:'badge-green', cs:'badge-blue' };
+    return `
+    <div class="session-item">
+      <div class="session-item-header">
+        <div>
+          <div class="session-title">🏫 ${esc(s.college)}</div>
+          <div class="session-meta">${esc(s.city||'')} · ${esc(s.date)} · ${esc(s.className||'')}</div>
+        </div>
+        <div class="session-badges">
+          <span class="badge ${discColors[s.discipline]||'badge-blue'}">${esc(s.discipline||'general')}</span>
+          <span class="badge badge-green">👩‍🎓 ${count} students</span>
+          <span class="badge badge-orange">⭐ Avg: ${avg}/50</span>
+        </div>
+      </div>
+      <div style="font-size:0.9rem;color:var(--text3);font-weight:600">
+        Topic: ${esc(s.topic||'')} &nbsp;|&nbsp; Created: ${esc(s.createdAtStr||'')}
+      </div>
+      <div class="session-actions">
+        <button class="btn btn-primary btn-sm" onclick="viewSession('${k}')">👁️ Live Leaderboard</button>
+        <button class="btn btn-green btn-sm" onclick="downloadSessionCSV('${k}')">⬇️ Download CSV</button>
+        <button class="btn btn-sm" style="background:var(--bg2);color:var(--text2);border:3px solid var(--border)" onclick="copySessionLink('${k}','${s.discipline||'general'}')">📋 Copy Quiz Link</button>
+        <button class="btn btn-red btn-sm" onclick="deleteSession('${k}')">🗑️ Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── VIEW SESSION DETAIL ──
+function viewSession(key) {
+  currentDetailKey = key;
+  currentDetailDisc = 'all';
+  const s = allSessions[key] || {};
+  document.getElementById('detailTitle').textContent = '🏫 ' + (s.college||'Session');
+  document.getElementById('detailSub').textContent =
+    (s.className||'') + ' · ' + (s.date||'') + ' · ' + (s.discipline||'');
+  showPage('pageDetail');
+  refreshDetail();
+}
+
+function refreshDetail() {
+  if (!currentDetailKey) return;
+  db.ref('scores/' + currentDetailKey).once('value').then(snap => {
+    const scores = snap.val() ? Object.values(snap.val()) : [];
+    renderDetailSummary(scores);
+    renderDetailLeaderboard(scores);
+  });
+}
+
+function renderDetailSummary(scores) {
+  const count = scores.length;
+  const avg = count ? (scores.reduce((a,b)=>a+(b.score||0),0)/count).toFixed(1) : 0;
+  const top = count ? Math.max(...scores.map(s=>s.score||0)) : 0;
+  const discs = [...new Set(scores.map(s=>s.discKey||s.discipline||'general'))];
+
+  document.getElementById('detailSummary').innerHTML = `
+    <div class="summary-item"><div class="s-num">${count}</div><div class="s-label">Total Students</div></div>
+    <div class="summary-item"><div class="s-num">${avg}</div><div class="s-label">Average Score</div></div>
+    <div class="summary-item"><div class="s-num">${top}/50</div><div class="s-label">Top Score</div></div>
+    <div class="summary-item"><div class="s-num">${discs.length}</div><div class="s-label">Disciplines</div></div>
+  `;
+}
+
+function filterDetailDisc(disc, btn) {
+  currentDetailDisc = disc;
+  document.querySelectorAll('#detailDiscFilter .disc-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  db.ref('scores/' + currentDetailKey).once('value').then(snap => {
+    const scores = snap.val() ? Object.values(snap.val()) : [];
+    renderDetailLeaderboard(scores);
+  });
+}
+
+function renderDetailLeaderboard(allScoreArr) {
+  let scores = allScoreArr;
+  if (currentDetailDisc !== 'all') {
+    scores = scores.filter(s => (s.discKey||'') === currentDetailDisc || (s.discipline||'').toLowerCase().includes(currentDetailDisc));
+  }
+  scores.sort((a,b) => b.score - a.score);
+  const medals = ['🥇','🥈','🥉'];
+  const body = document.getElementById('detailLbBody');
+  if (!scores.length) {
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text3);font-weight:700">No scores yet for this filter.</td></tr>';
+    return;
+  }
+  body.innerHTML = scores.map((s, i) => `
+    <tr class="${i<3?'rank-'+(i+1):''}">
+      <td>${i < 3 ? medals[i] : (i+1)}</td>
+      <td style="font-weight:800">${esc(s.name||'')}</td>
+      <td>${esc(s.dept||'')}</td>
+      <td>${esc(s.roll||'—')}</td>
+      <td><span class="badge badge-blue">${esc(s.discipline||'')}</span></td>
+      <td><span class="score-pill">${s.score||0}/50</span></td>
+      <td style="font-size:0.85rem;color:var(--text3)">${esc(s.submittedAt||'')}</td>
+    </tr>
+  `).join('');
+}
+
+// ── DOWNLOAD CSV ──
+function downloadSessionCSV(key) {
+  const s = allSessions[key] || {};
+  db.ref('scores/' + key).once('value').then(snap => {
+    const scores = snap.val() ? Object.values(snap.val()) : [];
+    const header = 'College,Date,Class,Name,Department,RollNo,Discipline,Score,Total,Correct,SubmittedAt\n';
+    const rows = scores.map(r =>
+      [s.college, s.date, s.className, r.name, r.dept, r.roll||'',
+       r.discipline, r.score, 50, r.correct, r.submittedAt||''].map(csvEsc).join(',')
+    ).join('\n');
+    downloadFile(`Workshop_${s.college||key}_${s.date||''}.csv`, header + rows, 'text/csv');
+    showToast('⬇️ CSV downloaded!');
+  });
+}
+
+function downloadCSV() { if (currentDetailKey) downloadSessionCSV(currentDetailKey); }
+
+function downloadMasterCSV() {
+  db.ref('sessions').once('value').then(sessSnap => {
+    const sessions = sessSnap.val() || {};
+    return db.ref('scores').once('value').then(scoreSnap => {
+      const allSc = scoreSnap.val() || {};
+      const header = 'SessionKey,College,City,Date,Class,Topic,Name,Department,RollNo,Discipline,Score,Total,Correct,SubmittedAt\n';
+      let rows = '';
+      Object.entries(allSc).forEach(([sk, sessScores]) => {
+        const s = sessions[sk] || {};
+        Object.values(sessScores).forEach(r => {
+          rows += [sk, s.college, s.city, s.date, s.className, s.topic,
+                   r.name, r.dept, r.roll||'', r.discipline,
+                   r.score, 50, r.correct, r.submittedAt||''].map(csvEsc).join(',') + '\n';
+        });
+      });
+      downloadFile('Workshop_MasterReport_DrCVKrishnaveni.csv', header + rows, 'text/csv');
+      showToast('⬇️ Master CSV downloaded!');
+    });
+  });
+}
+
+// ── DELETE SESSION ──
+function deleteSession(key) {
+  const s = allSessions[key] || {};
+  if (!confirm(`Delete session "${s.college} — ${s.date}"?\n\nAll student scores for this session will also be deleted.`)) return;
+  Promise.all([
+    db.ref('sessions/' + key).remove(),
+    db.ref('scores/' + key).remove(),
+  ]).then(() => {
+    showToast('🗑️ Session deleted!');
+    loadAllSessions();
+    loadOverview();
+    loadEvidenceSummary();
+  });
+}
+
+// ── SHARE LINKS ──
+function loadShareSessions() {
+  db.ref('sessions').once('value').then(snap => {
+    const sessions = snap.val() || {};
+    const sel = document.getElementById('shareSessionSelect');
+    sel.innerHTML = '<option value="">— Select a session —</option>';
+    Object.entries(sessions).sort((a,b) => b[1].createdAt - a[1].createdAt).forEach(([k,s]) => {
+      sel.innerHTML += `<option value="${k}">${s.college} — ${s.date} — ${s.className||''}</option>`;
+    });
+  });
+}
+
+document.getElementById('shareSessionSelect').addEventListener('change', function() {
+  shareSessionKey = this.value;
+  updateShareLink();
+});
+
+function setShareDisc(disc, btn) {
+  shareDisc = disc;
+  document.querySelectorAll('.disc-sel-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  updateShareLink();
+}
+
+function updateShareLink() {
+  if (!shareSessionKey) {
+    document.getElementById('shareLink').textContent = 'Select a session above to generate the link';
+    return;
+  }
+  const link = `${BASE_URL}?session=${shareSessionKey}&disc=${shareDisc}`;
+  document.getElementById('shareLink').textContent = link;
+}
+
+function copyShareLink() {
+  const link = document.getElementById('shareLink').textContent;
+  if (link.startsWith('Select')) { showToast('⚠️ Please select a session first!'); return; }
+  navigator.clipboard.writeText(link).catch(()=>{});
+  showToast('📋 Quiz link copied!');
+}
+
+function openShareLink() {
+  const link = document.getElementById('shareLink').textContent;
+  if (link.startsWith('Select')) { showToast('⚠️ Please select a session first!'); return; }
+  window.open(link, '_blank');
+}
+
+function copySessionLink(key, disc) {
+  const link = `${BASE_URL}?session=${key}&disc=${disc}`;
+  navigator.clipboard.writeText(link).catch(()=>{});
+  showToast('📋 Link copied!');
+}
+
+// ── EVIDENCE PAGE ──
+function loadEvidenceSummary() {
+  db.ref('sessions').once('value').then(sessSnap => {
+    const sessions = sessSnap.val() || {};
+    return db.ref('scores').once('value').then(scoreSnap => {
+      const allSc = scoreSnap.val() || {};
+      const sessArr = Object.entries(sessions).sort((a,b) => b[1].createdAt - a[1].createdAt);
+
+      let totalStudents = 0;
+      sessArr.forEach(([k]) => {
+        if (allSc[k]) totalStudents += Object.values(allSc[k]).length;
+      });
+
+      document.getElementById('evidenceSummary').innerHTML = `
+        <div class="summary-grid">
+          <div class="summary-item"><div class="s-num">${sessArr.length}</div><div class="s-label">Total Sessions</div></div>
+          <div class="summary-item"><div class="s-num">${new Set(sessArr.map(([,s])=>s.college)).size}</div><div class="s-label">Colleges</div></div>
+          <div class="summary-item"><div class="s-num">${totalStudents}</div><div class="s-label">Total Students</div></div>
+          <div class="summary-item"><div class="s-num">${sessArr.length > 0 ? sessArr[0][1].date : '—'}</div><div class="s-label">Latest Session</div></div>
+        </div>
+      `;
+
+      // Session-wise table
+      document.getElementById('evidenceTable').innerHTML = `
+        <div class="lb-wrap">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>#</th><th>College</th><th>Class</th><th>Date</th>
+              <th>Discipline</th><th>Students</th><th>Avg Score</th><th>Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sessArr.map(([k,s], i) => {
+              const sc = allSc[k] ? Object.values(allSc[k]) : [];
+              const avg = sc.length ? (sc.reduce((a,b)=>a+(b.score||0),0)/sc.length).toFixed(1) : '—';
+              return `<tr>
+                <td>${i+1}</td>
+                <td style="font-weight:800">${esc(s.college)}</td>
+                <td>${esc(s.className||'')}</td>
+                <td>${esc(s.date)}</td>
+                <td><span class="badge badge-blue">${esc(s.discipline||'general')}</span></td>
+                <td>${sc.length}</td>
+                <td>${avg}/50</td>
+                <td><button class="btn btn-green btn-sm" onclick="downloadSessionCSV('${k}')">⬇️ CSV</button></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+        </div>
+      `;
+    });
+  });
+}
+
+function printEvidenceReport() {
+  db.ref('sessions').once('value').then(sessSnap => {
+    const sessions = sessSnap.val() || {};
+    return db.ref('scores').once('value').then(scoreSnap => {
+      const allSc = scoreSnap.val() || {};
+      const sessArr = Object.entries(sessions).sort((a,b) => b[1].createdAt - a[1].createdAt);
+      let html = `
+        <div style="font-family:Arial,sans-serif;max-width:800px;margin:0 auto;padding:2rem">
+          <h1 style="text-align:center;color:#1d3557">Workshop Evidence Report</h1>
+          <h2 style="text-align:center;color:#457b9d">Dr. C V Krishnaveni</h2>
+          <p style="text-align:center">Lecturer in Computer Science · SKR &amp; SKR GCW(A), Kadapa, Andhra Pradesh</p>
+          <p style="text-align:center">Generated: ${new Date().toLocaleString('en-IN')}</p>
+          <hr>
+          <h3>Summary</h3>
+          <p>Total Sessions: <strong>${sessArr.length}</strong> &nbsp;|&nbsp;
+             Total Students: <strong>${sessArr.reduce((a,[k])=>a+(allSc[k]?Object.values(allSc[k]).length:0),0)}</strong></p>
+          <hr>
+      `;
+      sessArr.forEach(([k,s], i) => {
+        const sc = allSc[k] ? Object.values(allSc[k]).sort((a,b)=>b.score-a.score) : [];
+        html += `
+          <h3>${i+1}. ${s.college}</h3>
+          <p>Date: ${s.date} | Class: ${s.className||'—'} | Discipline: ${s.discipline||'General'}</p>
+          <p>Topic: ${s.topic||'—'} | Students: ${sc.length}</p>
+          <table border="1" cellpadding="6" style="width:100%;border-collapse:collapse;margin-bottom:1rem">
+            <tr style="background:#dbeafe"><th>#</th><th>Name</th><th>Dept</th><th>Roll</th><th>Score</th><th>Time</th></tr>
+            ${sc.map((r,j)=>`<tr><td>${j+1}</td><td>${esc(r.name)}</td><td>${esc(r.dept)}</td><td>${esc(r.roll||'—')}</td><td>${r.score}/50</td><td>${esc(r.submittedAt||'')}</td></tr>`).join('')}
+          </table>
+        `;
+      });
+      html += '</div>';
+      const w = window.open('','_blank');
+      w.document.write('<html><head><title>Evidence Report</title></head><body>' + html + '</body></html>');
+      w.document.close();
+      w.print();
+    });
+  });
+}
+
+// ── HELPERS ──
+function esc(s) {
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function csvEsc(v) {
+  const s = String(v||'');
+  return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g,'""')}"` : s;
+}
+function downloadFile(name, content, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], {type}));
+  a.download = name; a.click();
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
